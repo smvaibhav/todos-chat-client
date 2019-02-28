@@ -30,14 +30,19 @@ MongoClient.connect('mongodb://localhost:27017/iris', (err, Database) => {
         console.log(err);
         return false;
     }
-    console.log("Connected to MongoDB");
+    console.log("Connecting...");
+    console.clear();
+    console.log(">>> My ToDos Backend <<<");
+    console.log("------------------------\n");
     //console.log("Connected to MongoDB live Server");
     const db = Database.db("iris");
+    console.log("Database found :");
+    console.log("Connected with MongoDB Database...");
     //const db = Database.db("heroku_8ghl09jv");
     users = db.collection("users");
     chatRooms = db.collection("chatRooms");
     const server = app.listen(port, () => {
-        console.log("Server started on port " + port + "...");
+        console.log("Server started on port " + port);
     });
     const io = socket.listen(server);
 
@@ -67,7 +72,7 @@ MongoClient.connect('mongodb://localhost:27017/iris', (err, Database) => {
                     console.log(err);
                     return false;
                 }
-                console.log("New Notification by :" + data.user);
+                console.log("New Notification by :" + name.user);
             });
         });
         socket.on('typing', (data) => {
@@ -129,13 +134,16 @@ app.post('/api/login', (req, res) => {
                     loggedInUser = {
                         username: user.username,
                         email: user.email
-                    }    
+                    }
+                    console.log("Login Success...");    
                 } else {
                     isPresent = true;
                 }
+                console.log("Invalid Login");
             }
         });
             res.json({ isPresent: isPresent, correctPassword: correctPassword, user: loggedInUser });
+            
     });
 });
 
