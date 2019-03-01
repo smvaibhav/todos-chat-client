@@ -27,13 +27,20 @@ app.use((req, res, next) => {
 MongoClient.connect('mongodb://localhost:27017/iris', (err, Database) => {
 //MongoClient.connect('mongodb://iris:vaibhav96@ds143594.mlab.com:43594/heroku_8ghl09jv', (err, Database) => {    
     if(err) {
-        console.log(err);
-        return false;
+        console.clear();
+        console.log(">>> My ToDos Backend <<<");
+        console.log("------------------------\n");
+        console.log("Connecting...");
+        console.log('Connection Error...');
+        //console.log(err);
+        //return false;
+        process.exit(1);
     }
     console.log("Connecting...");
     console.clear();
     console.log(">>> My ToDos Backend <<<");
     console.log("------------------------\n");
+    console.log("Connecting...");
     //console.log("Connected to MongoDB live Server");
     const db = Database.db("iris");
     console.log("Database found :");
@@ -120,6 +127,7 @@ app.post('/api/users', (req, res, next) => {
 });
  
 // login api
+
 app.post('/api/login', (req, res) => {
     let isPresent = false;
     let correctPassword = false;
