@@ -79,7 +79,7 @@ MongoClient.connect('mongodb://localhost:27017/iris', (err, Database) => {
                     console.log(err);
                     return false;
                 }
-                console.log("New Notification by :" + name.user);
+               // console.log("New Notification by :" + name.user);
             });
         });
         socket.on('typing', (data) => {
@@ -143,7 +143,7 @@ app.post('/api/login', (req, res) => {
                         username: user.username,
                         email: user.email
                     }
-                    console.log("Login Success...");    
+                   // console.log("Login Success...");    
                 } else {
                     isPresent = true;
                 }
