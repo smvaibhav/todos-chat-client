@@ -147,7 +147,6 @@ app.post('/api/login', (req, res) => {
                 } else {
                     isPresent = true;
                 }
-                console.log("Invalid Login");
             }
         });
             res.json({ isPresent: isPresent, correctPassword: correctPassword, user: loggedInUser });
