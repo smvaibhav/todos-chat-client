@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 const MongoClient = mongodb.MongoClient;
 
 app.use((req, res, next) => {
-    res.append('Access-Control-Allow-Origin' , 'http://localhost:4200');
+    res.append('Access-Control-Allow-Origin' , 'http://192.168.1.37:4200');
     res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.append("Access-Control-Allow-Headers", "Origin, Accept,Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
     res.append('Access-Control-Allow-Credentials', true);
@@ -23,7 +23,8 @@ app.use((req, res, next) => {
 });
 
 
-MongoClient.connect('mongodb://localhost:27017/iris', (err, Database) => {
+// MongoClient.connect('mongodb://localhost:27017/iris', (err, Database) => {
+MongoClient.connect('mongodb://<dbuser>:<dbpassword>@ds143594.mlab.com:43594/heroku_8ghl09jv', (err, Database) => {
     if(err) {
         console.clear();
         console.log(">>> My ToDos Backend <<<");
@@ -43,7 +44,7 @@ MongoClient.connect('mongodb://localhost:27017/iris', (err, Database) => {
     users = db.collection("users");
     chatRooms = db.collection("chatRooms");
     const server = app.listen(port, () => {
-        console.log("Server started on port " + port);
+        console.log("Server started on port " + port + "...");
     });
 
     const io = socket.listen(server);
@@ -67,6 +68,7 @@ MongoClient.connect('mongodb://localhost:27017/iris', (err, Database) => {
                 }
             });
         });
+
         socket.on('message', (data) => {
             io.in(data.room).emit('new message', {user: data.user, message: data.message});
             chatRooms.update({name: data.room}, { $push: { messages: { user: data.user, message: data.message } } }, (err, res) => {
@@ -77,16 +79,22 @@ MongoClient.connect('mongodb://localhost:27017/iris', (err, Database) => {
                console.log("New Notification by :" + name.user);
             });
         });
+
         socket.on('typing', (data) => {
             socket.broadcast.in(data.room).emit('typing', {data: data, isTyping: true});
         });
+
+        // socket.on('stop typing', (data) =>{
+        //     socket.broadcast.in(data.room).emit('stop typing', {data: data, isTyping: false});
+        // });
     });
 
 }); 
 // Check Api
-app.get('/api', (req, res, next) => {
+app.get('/', (req, res, next) => {
     res.send('Welcome to todos express server...');
 });
+
 // sign up api
 app.post('/api/users', (req, res, next) => {
     let user = {
@@ -122,7 +130,6 @@ app.post('/api/users', (req, res, next) => {
 });
  
 // login api
-
 app.post('/api/login', (req, res) => {
     let isPresent = false;
     let correctPassword = false;
@@ -137,8 +144,7 @@ app.post('/api/login', (req, res) => {
                     loggedInUser = {
                         username: user.username,
                         email: user.email
-                    }
-                   // console.log("Login Success...");    
+                    }  
                 } else {
                     isPresent = true;
                 }
