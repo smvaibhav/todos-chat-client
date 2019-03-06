@@ -16,7 +16,6 @@ const MongoClient = mongodb.MongoClient;
 
 app.use((req, res, next) => {
     res.append('Access-Control-Allow-Origin' , 'http://localhost:4200');
-    //res.append('Access-Control-Allow-Origin' , 'http://192.168.1.37:4200');
     res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.append("Access-Control-Allow-Headers", "Origin, Accept,Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
     res.append('Access-Control-Allow-Credentials', true);
@@ -25,32 +24,28 @@ app.use((req, res, next) => {
 
 
 MongoClient.connect('mongodb://localhost:27017/iris', (err, Database) => {
-//MongoClient.connect('mongodb://iris:vaibhav96@ds143594.mlab.com:43594/heroku_8ghl09jv', (err, Database) => {    
     if(err) {
         console.clear();
         console.log(">>> My ToDos Backend <<<");
         console.log("------------------------\n");
         console.log("Connecting...");
         console.log('Connection Error...');
-        //console.log(err);
-        //return false;
-        process.exit(1);
+        console.log(err);
+        return false;
     }
-    console.log("Connecting...");
     console.clear();
     console.log(">>> My ToDos Backend <<<");
     console.log("------------------------\n");
     console.log("Connecting...");
-    //console.log("Connected to MongoDB live Server");
     const db = Database.db("iris");
     console.log("Database found :");
     console.log("Connected with MongoDB Database...");
-    //const db = Database.db("heroku_8ghl09jv");
     users = db.collection("users");
     chatRooms = db.collection("chatRooms");
     const server = app.listen(port, () => {
         console.log("Server started on port " + port);
     });
+
     const io = socket.listen(server);
 
     io.sockets.on('connection', (socket) => {
@@ -79,7 +74,7 @@ MongoClient.connect('mongodb://localhost:27017/iris', (err, Database) => {
                     console.log(err);
                     return false;
                 }
-               // console.log("New Notification by :" + name.user);
+               console.log("New Notification by :" + name.user);
             });
         });
         socket.on('typing', (data) => {
@@ -89,7 +84,7 @@ MongoClient.connect('mongodb://localhost:27017/iris', (err, Database) => {
 
 }); 
 // Check Api
-app.get('/', (req, res, next) => {
+app.get('/api', (req, res, next) => {
     res.send('Welcome to todos express server...');
 });
 // sign up api
