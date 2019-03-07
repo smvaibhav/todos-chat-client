@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 
 
 // MongoClient.connect('mongodb://localhost:27017/iris', (err, Database) => {
-MongoClient.connect('mongodb://<dbuser>:<dbpassword>@ds143594.mlab.com:43594/heroku_8ghl09jv', (err, Database) => {
+MongoClient.connect('mongodb://iris:vaibhav96@ds143594.mlab.com:43594/heroku_8ghl09jv', (err, Database) => {
     if(err) {
         console.clear();
         console.log(">>> My ToDos Backend <<<");
@@ -38,9 +38,9 @@ MongoClient.connect('mongodb://<dbuser>:<dbpassword>@ds143594.mlab.com:43594/her
     console.log(">>> My ToDos Backend <<<");
     console.log("------------------------\n");
     console.log("Connecting...");
-    const db = Database.db("iris");
+    const db = Database.db("heroku_8ghl09jv");
     console.log("Database found :");
-    console.log("Connected with MongoDB Database...");
+    console.log("Connected with online MongoDB Database...");
     users = db.collection("users");
     chatRooms = db.collection("chatRooms");
     const server = app.listen(port, () => {
