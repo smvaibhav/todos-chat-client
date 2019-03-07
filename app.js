@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 
 
 // MongoClient.connect('mongodb://localhost:27017/iris', (err, Database) => {
-MongoClient.connect('mongodb://iris:vaibhav96@ds143594.mlab.com:43594/heroku_8ghl09jv', (err, Database) => {
+MongoClient.connect('mongodb://vaibhav:vaibhav96@ds161335.mlab.com:61335/heroku_zsv25gb2', (err, Database) => {
     if(err) {
         console.clear();
         console.log(">>> My ToDos Backend <<<");
@@ -38,7 +38,7 @@ MongoClient.connect('mongodb://iris:vaibhav96@ds143594.mlab.com:43594/heroku_8gh
     console.log(">>> My ToDos Backend <<<");
     console.log("------------------------\n");
     console.log("Connecting...");
-    const db = Database.db("heroku_8ghl09jv");
+    const db = Database.db("heroku_zsv25gb2");
     console.log("Database found :");
     console.log("Connected with online MongoDB Database...");
     users = db.collection("users");
@@ -76,23 +76,18 @@ MongoClient.connect('mongodb://iris:vaibhav96@ds143594.mlab.com:43594/heroku_8gh
                     console.log(err);
                     return false;
                 }
-               console.log("New Notification by :" + name.user);
             });
         });
 
         socket.on('typing', (data) => {
             socket.broadcast.in(data.room).emit('typing', {data: data, isTyping: true});
         });
-
-        // socket.on('stop typing', (data) =>{
-        //     socket.broadcast.in(data.room).emit('stop typing', {data: data, isTyping: false});
-        // });
     });
 
 }); 
 // Check Api
-app.get('/', (req, res, next) => {
-    res.send('Welcome to todos express server...');
+app.get('/api', (req, res, next) => {
+    res.send('Welcome to todos Heroku express server...');
 });
 
 // sign up api
